@@ -8,375 +8,259 @@
     :root {
       --bg: #050505;
       --card: #111111;
-      --card-soft: #151515;
-      --border: #262626;
       --accent: #ffffff;
-      --accent-soft: #999999;
+      --muted: #888888;
+      --border: #222222;
       --danger: #ff4b4b;
-      --font: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
-        "Segoe UI", sans-serif;
-      --radius-lg: 14px;
-      --radius-md: 10px;
-      --radius-sm: 6px;
     }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif; }
     body {
-      background: radial-gradient(circle at top, #1a1a1a 0, #050505 55%);
+      background: radial-gradient(circle at top, #1b1b1b 0, #050505 45%, #000 100%);
       color: #f5f5f5;
-      font-family: var(--font);
       min-height: 100vh;
       padding: 32px 16px;
       display: flex;
       justify-content: center;
     }
-
     .app {
       width: 100%;
-      max-width: 1100px;
+      max-width: 960px;
     }
-
     .header {
       margin-bottom: 24px;
     }
-
     .title {
       font-size: 28px;
-      font-weight: 650;
-      letter-spacing: 0.02em;
-      margin-bottom: 4px;
+      font-weight: 600;
+      letter-spacing: 0.03em;
     }
-
     .subtitle {
-      font-size: 14px;
-      color: var(--accent-soft);
+      margin-top: 4px;
+      font-size: 13px;
+      color: var(--muted);
     }
-
+    .create-card {
+      background: rgba(10,10,10,0.95);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 18px 18px 16px;
+      margin-bottom: 20px;
+      backdrop-filter: blur(16px);
+    }
+    .section-title {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+    .field-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .field {
+      flex: 1 1 200px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    label {
+      font-size: 12px;
+      color: var(--muted);
+    }
+    input {
+      background: #050505;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      padding: 8px 12px;
+      color: #f5f5f5;
+      font-size: 13px;
+      outline: none;
+    }
+    input:focus {
+      border-color: #ffffff;
+    }
+    .btn-primary {
+      margin-top: 4px;
+      border-radius: 999px;
+      border: none;
+      background: #ffffff;
+      color: #000;
+      font-size: 13px;
+      padding: 8px 14px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn-primary span {
+      font-size: 16px;
+      line-height: 0;
+    }
+    .list-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 8px;
+    }
+    .count {
+      font-size: 12px;
+      color: var(--muted);
+    }
     .grid {
       display: grid;
-      grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
-      gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 14px;
     }
-
-    @media (max-width: 900px) {
-      .grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
     .card {
-      background: linear-gradient(145deg, #101010, #050505);
-      border-radius: var(--radius-lg);
+      background: rgba(10,10,10,0.95);
+      border-radius: 16px;
       border: 1px solid var(--border);
-      padding: 18px 18px 16px;
-      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.6);
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
     }
-
-    .card-header {
+    .card-top {
+      display: flex;
+      gap: 10px;
+    }
+    .qr-box {
+      width: 90px;
+      height: 90px;
+      border-radius: 12px;
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .qr-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+    .card-main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .card-title-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 14px;
-    }
-
-    .card-title {
-      font-size: 15px;
-      font-weight: 600;
-    }
-
-    .card-subtitle {
-      font-size: 12px;
-      color: var(--accent-soft);
-      margin-top: 2px;
-    }
-
-    .badge {
-      font-size: 11px;
-      padding: 3px 8px;
-      border-radius: 999px;
-      border: 1px solid var(--border);
-      color: var(--accent-soft);
-    }
-
-    .field-group {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-top: 6px;
-    }
-
-    .field-label {
-      font-size: 12px;
-      color: var(--accent-soft);
-      margin-bottom: 4px;
-    }
-
-    .input {
-      width: 100%;
-      background: #050505;
-      border-radius: var(--radius-md);
-      border: 1px solid var(--border);
-      padding: 9px 10px;
-      font-size: 13px;
-      color: #f5f5f5;
-      outline: none;
-      transition: border 0.15s, box-shadow 0.15s, background 0.15s;
-    }
-
-    .input::placeholder {
-      color: #555;
-    }
-
-    .input:focus {
-      border-color: #ffffff;
-      box-shadow: 0 0 0 1px #ffffff10;
-      background: #080808;
-    }
-
-    .btn-primary {
-      margin-top: 12px;
-      width: 100%;
-      border-radius: var(--radius-md);
-      border: none;
-      padding: 9px 12px;
-      font-size: 13px;
-      font-weight: 500;
-      background: #ffffff;
-      color: #000000;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
       gap: 6px;
-      transition: transform 0.08s ease, box-shadow 0.08s ease,
-        background 0.15s ease;
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.7);
     }
-
-    .btn-primary:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.8);
-      background: #f2f2f2;
-    }
-
-    .btn-primary:active {
-      transform: translateY(0);
-      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.7);
-    }
-
-    .btn-secondary,
-    .btn-ghost {
-      border-radius: var(--radius-sm);
-      border: 1px solid var(--border);
-      background: #101010;
-      color: #f5f5f5;
-      font-size: 11px;
-      padding: 5px 8px;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      transition: background 0.12s, border 0.12s, transform 0.08s;
-    }
-
-    .btn-secondary:hover,
-    .btn-ghost:hover {
-      background: #181818;
-      border-color: #3a3a3a;
-      transform: translateY(-0.5px);
-    }
-
-    .btn-ghost {
-      background: transparent;
-    }
-
-    .btn-danger {
-      border-radius: var(--radius-sm);
-      border: 1px solid #3a1515;
-      background: #1a0505;
-      color: #ff8080;
-      font-size: 11px;
-      padding: 5px 8px;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      transition: background 0.12s, border 0.12s, transform 0.08s;
-    }
-
-    .btn-danger:hover {
-      background: #260707;
-      border-color: #ff4b4b;
-      transform: translateY(-0.5px);
-    }
-
-    .qr-list {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-top: 6px;
-      max-height: 360px;
-      overflow-y: auto;
-      padding-right: 4px;
-    }
-
-    .qr-item {
-      background: var(--card-soft);
-      border-radius: var(--radius-md);
-      border: 1px solid var(--border);
-      padding: 10px 10px 9px;
-      display: grid;
-      grid-template-columns: auto minmax(0, 1fr) auto;
-      gap: 10px;
-      align-items: center;
-    }
-
-    .qr-icon {
-      width: 40px;
-      height: 40px;
-      border-radius: 10px;
-      background: radial-gradient(circle at top left, #ffffff, #888888);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
-      color: #000;
-      font-weight: 700;
-    }
-
-    .qr-main {
-      min-width: 0;
-    }
-
-    .qr-name {
-      font-size: 13px;
+    .card-title {
+      font-size: 14px;
       font-weight: 500;
-      margin-bottom: 2px;
-    }
-
-    .qr-url {
-      font-size: 11px;
-      color: var(--accent-soft);
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      max-width: 260px;
     }
-
-    .qr-meta {
-      font-size: 11px;
-      color: #bbbbbb;
-      margin-top: 4px;
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .qr-meta span {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    .dot {
-      width: 4px;
-      height: 4px;
-      border-radius: 999px;
-      background: #555;
-    }
-
-    .qr-actions {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      align-items: flex-end;
-    }
-
-    .qr-actions-top {
+    .card-actions {
       display: flex;
       gap: 4px;
     }
-
     .icon-btn {
       width: 22px;
       height: 22px;
       border-radius: 999px;
       border: 1px solid var(--border);
-      background: #101010;
+      background: transparent;
+      color: var(--muted);
+      font-size: 11px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      font-size: 11px;
-      color: #f5f5f5;
       cursor: pointer;
-      transition: background 0.12s, border 0.12s, transform 0.08s;
     }
-
-    .icon-btn:hover {
-      background: #181818;
-      border-color: #3a3a3a;
-      transform: translateY(-0.5px);
+    .icon-btn.danger {
+      border-color: rgba(255,75,75,0.4);
+      color: var(--danger);
     }
-
-    .qr-actions-bottom {
-      display: flex;
-      gap: 4px;
-    }
-
-    .analytics-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 8px;
-      margin-top: 8px;
-    }
-
-    .stat-card {
-      background: #0b0b0b;
-      border-radius: var(--radius-md);
-      border: 1px solid var(--border);
-      padding: 8px 9px;
-    }
-
-    .stat-label {
+    .url {
       font-size: 11px;
-      color: var(--accent-soft);
-      margin-bottom: 2px;
+      color: var(--muted);
+      word-break: break-all;
     }
-
-    .stat-value {
-      font-size: 15px;
-      font-weight: 600;
-    }
-
-    .stat-sub {
-      font-size: 11px;
-      color: #bbbbbb;
-      margin-top: 2px;
-    }
-
-    .stat-pill-row {
+    .stats-row {
       display: flex;
       flex-wrap: wrap;
-      gap: 4px;
+      gap: 8px;
       margin-top: 4px;
     }
-
     .pill {
-      font-size: 10px;
-      padding: 2px 6px;
       border-radius: 999px;
       border: 1px solid var(--border);
-      color: #cccccc;
+      padding: 3px 8px;
+      font-size: 11px;
+      color: var(--muted);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
     }
-
-    .pill-strong {
-      border-color: #ffffff33;
-      color: #ffffff;
+    .pill strong {
+      color: #f5f5f5;
+      font-weight: 500;
+    }
+    .analytics {
+      margin-top: 6px;
+      padding-top: 6px;
+      border-top: 1px dashed #222;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .analytics-title {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+    }
+    .analytics-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap: 4px;
+    }
+    .analytics-item {
+      font-size: 11px;
+      color: var(--muted);
+    }
+    .analytics-item strong {
+      display: block;
+      color: #f5f5f5;
+      font-weight: 500;
+    }
+    .card-footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 6px;
+      margin-top: 6px;
+    }
+    .btn-secondary {
+      flex: 1;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: #050505;
+      color: #f5f5f5;
+      font-size: 12px;
+      padding: 6px 10px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+    .btn-secondary span {
+      font-size: 13px;
+    }
+    @media (max-width: 600px) {
+      .card-top { flex-direction: column; }
+      .qr-box { width: 100%; height: 140px; }
     }
   </style>
 </head>
@@ -384,341 +268,190 @@
   <div class="app">
     <header class="header">
       <div class="title">QR Code Manager</div>
-      <div class="subtitle">Create, manage, and track your dynamic QR codes.</div>
+      <div class="subtitle">Create and track dynamic QR codes with per‑code analytics.</div>
     </header>
 
-    <div class="grid">
-      <!-- Left: Create + Analytics -->
-      <section class="card">
-        <div class="card-header">
-          <div>
-            <div class="card-title">Create New QR Code</div>
-            <div class="card-subtitle">Generate a dynamic QR that you can update later.</div>
-          </div>
-          <span class="badge">Dynamic</span>
+    <section class="create-card">
+      <div class="section-title">Create New QR Code</div>
+      <div class="field-row">
+        <div class="field">
+          <label for="name">Name</label>
+          <input id="name" placeholder="e.g. YouTube Link" />
         </div>
-
-        <div class="field-group">
-          <div>
-            <div class="field-label">Name</div>
-            <input
-              id="nameInput"
-              class="input"
-              placeholder="My Website Link"
-            />
-          </div>
-          <div>
-            <div class="field-label">Destination URL</div>
-            <input
-              id="urlInput"
-              class="input"
-              placeholder="https://example.com"
-            />
-          </div>
+        <div class="field">
+          <label for="url">Destination URL</label>
+          <input id="url" placeholder="https://example.com" />
         </div>
+      </div>
+      <button class="btn-primary" id="createBtn">
+        <span>＋</span>
+        Create QR Code
+      </button>
+    </section>
 
-        <button class="btn-primary" id="createBtn">
-          <span>＋</span>
-          <span>Create QR Code</span>
-        </button>
-
-        <!-- Analytics Section -->
-        <div style="margin-top: 18px; border-top: 1px solid var(--border); padding-top: 12px;">
-          <div class="card-header" style="margin-bottom: 8px;">
-            <div>
-              <div class="card-title">Scan Analytics</div>
-              <div class="card-subtitle">Quick overview of how your QR codes are performing.</div>
-            </div>
-          </div>
-
-          <div class="analytics-grid">
-            <div class="stat-card">
-              <div class="stat-label">Total Scans</div>
-              <div class="stat-value" id="totalScans">0</div>
-              <div class="stat-sub" id="avgScansPerCode">Avg 0 per QR</div>
-            </div>
-
-            <div class="stat-card">
-              <div class="stat-label">Active QR Codes</div>
-              <div class="stat-value" id="totalCodes">0</div>
-              <div class="stat-sub" id="withScans">0 with at least 1 scan</div>
-            </div>
-
-            <div class="stat-card">
-              <div class="stat-label">Top Performing QR</div>
-              <div class="stat-value" id="topQrName">—</div>
-              <div class="stat-sub" id="topQrScans">No scans yet</div>
-            </div>
-
-            <div class="stat-card">
-              <div class="stat-label">Last Scan</div>
-              <div class="stat-value" id="lastScanTime">—</div>
-              <div class="stat-sub" id="lastScanCode">No scan activity</div>
-            </div>
-          </div>
-
-          <div class="stat-pill-row" id="extraInsights">
-            <!-- Filled by JS -->
-          </div>
-        </div>
-      </section>
-
-      <!-- Right: QR List -->
-      <section class="card">
-        <div class="card-header">
-          <div>
-            <div class="card-title">Your QR Codes</div>
-            <div class="card-subtitle">Manage links, track scans, and export QR images.</div>
-          </div>
-          <span class="badge" id="totalCodesBadge">0 total</span>
-        </div>
-
-        <div class="qr-list" id="qrList"></div>
-      </section>
-    </div>
+    <section>
+      <div class="list-header">
+        <div class="section-title">Your QR Codes</div>
+        <div class="count"><span id="count">0</span> codes</div>
+      </div>
+      <div class="grid" id="grid"></div>
+    </section>
   </div>
 
   <script>
-    // Mock data – later you can replace this with real backend data
-    let qrCodes = [
+    // Simple in-memory store (replace with localStorage or backend if you want persistence)
+    const codes = [
       {
-        id: "1",
+        id: crypto.randomUUID(),
         name: "test",
         url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
         scans: 3,
-        lastScan: new Date(Date.now() - 1000 * 60 * 60 * 2), // 2 hours ago
+        uniqueVisitors: 2,
+        lastScan: "2026-05-26 19:32",
+        todayScans: 1,
+        deviceBreakdown: { mobile: 70, desktop: 30 },
+        locationTop: "US, UK",
       },
       {
-        id: "2",
+        id: crypto.randomUUID(),
         name: "My Website",
         url: "https://google.com",
         scans: 0,
-        lastScan: null,
-      },
+        uniqueVisitors: 0,
+        lastScan: "—",
+        todayScans: 0,
+        deviceBreakdown: { mobile: 0, desktop: 0 },
+        locationTop: "—",
+      }
     ];
 
-    const qrListEl = document.getElementById("qrList");
-    const totalScansEl = document.getElementById("totalScans");
-    const avgScansPerCodeEl = document.getElementById("avgScansPerCode");
-    const totalCodesEl = document.getElementById("totalCodes");
-    const totalCodesBadgeEl = document.getElementById("totalCodesBadge");
-    const withScansEl = document.getElementById("withScans");
-    const topQrNameEl = document.getElementById("topQrName");
-    const topQrScansEl = document.getElementById("topQrScans");
-    const lastScanTimeEl = document.getElementById("lastScanTime");
-    const lastScanCodeEl = document.getElementById("lastScanCode");
-    const extraInsightsEl = document.getElementById("extraInsights");
-
-    const nameInput = document.getElementById("nameInput");
-    const urlInput = document.getElementById("urlInput");
+    const grid = document.getElementById("grid");
+    const countEl = document.getElementById("count");
     const createBtn = document.getElementById("createBtn");
+    const nameInput = document.getElementById("name");
+    const urlInput = document.getElementById("url");
 
-    function formatTimeAgo(date) {
-      if (!date) return "—";
-      const diffMs = Date.now() - date.getTime();
-      const diffMin = Math.floor(diffMs / 60000);
-      if (diffMin < 1) return "Just now";
-      if (diffMin < 60) return diffMin + " min ago";
-      const diffH = Math.floor(diffMin / 60);
-      if (diffH < 24) return diffH + " hr ago";
-      const diffD = Math.floor(diffH / 24);
-      return diffD + " day" + (diffD > 1 ? "s" : "") + " ago";
-    }
+    function render() {
+      countEl.textContent = codes.length;
+      grid.innerHTML = "";
+      codes.forEach(code => {
+        const card = document.createElement("article");
+        card.className = "card";
 
-    function renderList() {
-      qrListEl.innerHTML = "";
-      qrCodes.forEach((qr) => {
-        const item = document.createElement("div");
-        item.className = "qr-item";
-
-        const icon = document.createElement("div");
-        icon.className = "qr-icon";
-        icon.textContent = "QR";
-
-        const main = document.createElement("div");
-        main.className = "qr-main";
-
-        const name = document.createElement("div");
-        name.className = "qr-name";
-        name.textContent = qr.name;
-
-        const url = document.createElement("div");
-        url.className = "qr-url";
-        url.textContent = qr.url;
-
-        const meta = document.createElement("div");
-        meta.className = "qr-meta";
-        meta.innerHTML = `
-          <span><strong>${qr.scans}</strong> scans</span>
-          <span class="dot"></span>
-          <span>Last scan: ${qr.lastScan ? formatTimeAgo(qr.lastScan) : "No scans yet"}</span>
+        card.innerHTML = `
+          <div class="card-top">
+            <div class="qr-box">
+              <!-- Replace with real QR image if you have one -->
+              <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(code.id)}" alt="QR" />
+            </div>
+            <div class="card-main">
+              <div class="card-title-row">
+                <div class="card-title" title="${code.name}">${code.name}</div>
+                <div class="card-actions">
+                  <button class="icon-btn" data-action="edit" data-id="${code.id}">✎</button>
+                  <button class="icon-btn danger" data-action="delete" data-id="${code.id}">✕</button>
+                </div>
+              </div>
+              <div class="url">${code.url}</div>
+              <div class="stats-row">
+                <div class="pill"><strong>${code.scans}</strong> scans</div>
+                <div class="pill"><strong>${code.uniqueVisitors}</strong> unique</div>
+                <div class="pill"><strong>${code.todayScans}</strong> today</div>
+              </div>
+              <div class="analytics">
+                <div class="analytics-title">Analytics</div>
+                <div class="analytics-grid">
+                  <div class="analytics-item">
+                    <strong>${code.lastScan}</strong>
+                    Last scan
+                  </div>
+                  <div class="analytics-item">
+                    <strong>${code.deviceBreakdown.mobile}% / ${code.deviceBreakdown.desktop}%</strong>
+                    Mobile / Desktop
+                  </div>
+                  <div class="analytics-item">
+                    <strong>${code.locationTop}</strong>
+                    Top locations
+                  </div>
+                  <div class="analytics-item">
+                    <strong>${code.scans === 0 ? "—" : (code.scans / Math.max(1, code.uniqueVisitors)).toFixed(1)}</strong>
+                    Avg scans / user
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer">
+            <button class="btn-secondary" data-action="copy" data-id="${code.id}">
+              <span>⧉</span> Copy URL
+            </button>
+            <button class="btn-secondary" data-action="download" data-id="${code.id}">
+              <span>⬇</span> Download
+            </button>
+          </div>
         `;
 
-        main.appendChild(name);
-        main.appendChild(url);
-        main.appendChild(meta);
-
-        const actions = document.createElement("div");
-        actions.className = "qr-actions";
-
-        const topRow = document.createElement("div");
-        topRow.className = "qr-actions-top";
-
-        const editBtn = document.createElement("button");
-        editBtn.className = "icon-btn";
-        editBtn.title = "Edit";
-        editBtn.textContent = "✏️";
-        editBtn.onclick = () => alert("Edit not wired yet (demo).");
-
-        const deleteBtn = document.createElement("button");
-        deleteBtn.className = "icon-btn";
-        deleteBtn.title = "Delete";
-        deleteBtn.textContent = "🗑";
-        deleteBtn.onclick = () => {
-          if (confirm("Delete this QR code?")) {
-            qrCodes = qrCodes.filter((x) => x.id !== qr.id);
-            updateUI();
-          }
-        };
-
-        topRow.appendChild(editBtn);
-        topRow.appendChild(deleteBtn);
-
-        const bottomRow = document.createElement("div");
-        bottomRow.className = "qr-actions-bottom";
-
-        const copyBtn = document.createElement("button");
-        copyBtn.className = "btn-secondary";
-        copyBtn.textContent = "Copy URL";
-        copyBtn.onclick = async () => {
-          try {
-            await navigator.clipboard.writeText(qr.url);
-            copyBtn.textContent = "Copied!";
-            setTimeout(() => (copyBtn.textContent = "Copy URL"), 1200);
-          } catch {
-            alert("Could not copy.");
-          }
-        };
-
-        const downloadBtn = document.createElement("button");
-        downloadBtn.className = "btn-ghost";
-        downloadBtn.textContent = "Download";
-        downloadBtn.onclick = () =>
-          alert("Download QR image not wired yet (demo).");
-
-        bottomRow.appendChild(copyBtn);
-        bottomRow.appendChild(downloadBtn);
-
-        actions.appendChild(topRow);
-        actions.appendChild(bottomRow);
-
-        item.appendChild(icon);
-        item.appendChild(main);
-        item.appendChild(actions);
-
-        qrListEl.appendChild(item);
+        grid.appendChild(card);
       });
-    }
-
-    function updateAnalytics() {
-      const totalCodes = qrCodes.length;
-      const totalScans = qrCodes.reduce((sum, qr) => sum + qr.scans, 0);
-      const codesWithScans = qrCodes.filter((qr) => qr.scans > 0).length;
-      const avgScans = totalCodes === 0 ? 0 : (totalScans / totalCodes).toFixed(1);
-
-      totalCodesEl.textContent = totalCodes;
-      totalCodesBadgeEl.textContent = totalCodes + " total";
-      totalScansEl.textContent = totalScans;
-      avgScansPerCodeEl.textContent = `Avg ${avgScans} per QR`;
-      withScansEl.textContent = `${codesWithScans} with at least 1 scan`;
-
-      // Top QR
-      if (totalScans === 0) {
-        topQrNameEl.textContent = "—";
-        topQrScansEl.textContent = "No scans yet";
-      } else {
-        const top = [...qrCodes].sort((a, b) => b.scans - a.scans)[0];
-        topQrNameEl.textContent = top.name;
-        topQrScansEl.textContent = `${top.scans} scans`;
-      }
-
-      // Last scan
-      const withLastScan = qrCodes.filter((qr) => qr.lastScan);
-      if (withLastScan.length === 0) {
-        lastScanTimeEl.textContent = "—";
-        lastScanCodeEl.textContent = "No scan activity";
-      } else {
-        const latest = withLastScan.sort(
-          (a, b) => b.lastScan.getTime() - a.lastScan.getTime()
-        )[0];
-        lastScanTimeEl.textContent = formatTimeAgo(latest.lastScan);
-        lastScanCodeEl.textContent = latest.name;
-      }
-
-      // Extra insights
-      extraInsightsEl.innerHTML = "";
-      const highScan = qrCodes.filter((qr) => qr.scans >= 5).length;
-      const zeroScan = qrCodes.filter((qr) => qr.scans === 0).length;
-
-      const pills = [];
-
-      pills.push(
-        `Engagement: ${
-          totalCodes === 0 ? 0 : Math.round((codesWithScans / totalCodes) * 100)
-        }% of QR codes have scans`
-      );
-
-      if (highScan > 0) {
-        pills.push(`${highScan} high-performing QR code(s) (5+ scans)`);
-      }
-
-      if (zeroScan > 0) {
-        pills.push(`${zeroScan} QR code(s) with 0 scans – might need promotion`);
-      }
-
-      if (totalScans > 0 && totalCodes > 0) {
-        pills.push(
-          `Scan density: ${(totalScans / totalCodes).toFixed(
-            1
-          )} scans per QR on average`
-        );
-      }
-
-      pills.forEach((text, idx) => {
-        const pill = document.createElement("span");
-        pill.className = "pill" + (idx === 0 ? " pill-strong" : "");
-        pill.textContent = text;
-        extraInsightsEl.appendChild(pill);
-      });
-    }
-
-    function updateUI() {
-      renderList();
-      updateAnalytics();
     }
 
     createBtn.addEventListener("click", () => {
       const name = nameInput.value.trim();
       const url = urlInput.value.trim();
-      if (!name || !url) {
-        alert("Please enter both a name and a destination URL.");
-        return;
-      }
-      const id = Date.now().toString();
-      qrCodes.push({
-        id,
+      if (!name || !url) return;
+
+      codes.push({
+        id: crypto.randomUUID(),
         name,
         url,
         scans: 0,
-        lastScan: null,
+        uniqueVisitors: 0,
+        lastScan: "—",
+        todayScans: 0,
+        deviceBreakdown: { mobile: 0, desktop: 0 },
+        locationTop: "—",
       });
+
       nameInput.value = "";
       urlInput.value = "";
-      updateUI();
+      render();
     });
 
-    // Initial render
-    updateUI();
+    grid.addEventListener("click", (e) => {
+      const btn = e.target.closest("button");
+      if (!btn) return;
+      const id = btn.dataset.id;
+      const action = btn.dataset.action;
+      const code = codes.find(c => c.id === id);
+      if (!code) return;
+
+      if (action === "delete") {
+        const idx = codes.findIndex(c => c.id === id);
+        if (idx !== -1) codes.splice(idx, 1);
+        render();
+      }
+
+      if (action === "edit") {
+        const newName = prompt("Rename QR code:", code.name);
+        if (newName) code.name = newName.trim();
+        render();
+      }
+
+      if (action === "copy") {
+        navigator.clipboard.writeText(code.url).catch(() => {});
+      }
+
+      if (action === "download") {
+        // Simple download of the QR image URL
+        const a = document.createElement("a");
+        a.href = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(code.id)}`;
+        a.download = `${code.name || "qr-code"}.png`;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+      }
+    });
+
+    render();
   </script>
 </body>
-</html>
