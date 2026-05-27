@@ -299,6 +299,18 @@
   </div>
 
   <script>
+    // Password to access the site
+const PASSWORD = "qrcode";
+
+let entered = localStorage.getItem("enteredPassword");
+
+if (entered !== PASSWORD) {
+  const userPass = prompt("Enter password to access QR Manager:");
+  if (userPass !== PASSWORD) {
+    document.body.innerHTML = "<h2 style='color:white;text-align:center;margin-top:40px;'>Access Denied</h2>";
+    throw new Error("Wrong password");
+  }
+  localStorage.setItem("enteredPassword", PASSWORD);
     // Simple in-memory store (replace with localStorage or backend if you want persistence)
     const codes = [
       {
