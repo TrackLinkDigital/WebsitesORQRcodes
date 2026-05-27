@@ -372,7 +372,7 @@ function render() {
     card.innerHTML = `
       <div class="card-top">
         <div class="qr-box">
-          <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(code.id)}" alt="QR" />
+          <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(location.origin + "/redirect.html?id=" + code.id)}" alt="QR" />
         </div>
         <div class="card-main">
           <div class="card-title-row">
@@ -491,7 +491,7 @@ grid.addEventListener("click", (e) => {
 
   if (action === "download") {
     const a = document.createElement("a");
-    a.href = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(code.id)}`;
+   a.href = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(location.origin + "/redirect.html?id=" + code.id)}`;
     a.download = `${code.name || "qr-code"}.png`;
     document.body.appendChild(a);
     a.click();
