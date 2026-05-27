@@ -274,7 +274,7 @@
 
 const PASSWORD = "qrcode";
 
-let entered = sessionStorage.getItem("qr_pass_ok");
+let entered = localStorage.getItem("qr_pass_ok");
 
 if (entered !== "yes") {
   const userPass = prompt("Enter password to access QR Manager:");
@@ -282,7 +282,7 @@ if (entered !== "yes") {
     document.body.innerHTML = "<h2 style='color:white;text-align:center;margin-top:40px;'>Access Denied</h2>";
     throw new Error("Wrong password");
   }
-  sessionStorage.setItem("qr_pass_ok", "yes");
+localStorage.setItem("qr_pass_ok", "yes");
 }
 
 // =========================
