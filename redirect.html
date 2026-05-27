@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Redirecting...</title>
+</head>
+<body style="background:#000; color:#fff; font-family:sans-serif; text-align:center; padding-top:40px;">
+
+<script>
+// Get ?id= from URL
+const params = new URLSearchParams(location.search);
+const id = params.get("id");
+
+// Load QR codes from localStorage
+const codes = JSON.parse(localStorage.getItem("qrCodes") || "[]");
+
+// Find matching QR
+const code = codes.find(c => c.id === id);
+
+if (!code) {
+  document.body.innerHTML = "<h2>QR Code Not Found</h2>";
+} else {
+  document.body.innerHTML = "<h2>Redirecting...</h2>";
+  location.href = code.url;
+}
+</script>
+
+</body>
+</html>
