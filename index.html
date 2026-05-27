@@ -128,8 +128,8 @@
       gap: 10px;
     }
     .qr-box {
-      width: 90px;
-      height: 90px;
+      width: 160px;
+      height: 160px;
       border-radius: 12px;
       background: #000;
       display: flex;
@@ -260,7 +260,7 @@
     }
     @media (max-width: 600px) {
       .card-top { flex-direction: column; }
-      .qr-box { width: 100%; height: 140px; }
+      .qr-box { width: 100%; height: 200px; }
     }
   </style>
 </head>
@@ -268,10 +268,7 @@
 <body>
 
 <script>
-// =========================
 // PASSWORD PROTECTION
-// =========================
-
 const PASSWORD = "qrcode";
 
 let entered = localStorage.getItem("qr_pass_ok");
@@ -282,15 +279,19 @@ if (entered !== "yes") {
     document.body.innerHTML = "<h2 style='color:white;text-align:center;margin-top:40px;'>Access Denied</h2>";
     throw new Error("Wrong password");
   }
-localStorage.setItem("qr_pass_ok", "yes");
+  localStorage.setItem("qr_pass_ok", "yes");
 }
 
-// =========================
-// LOAD QR CODES (Step 2)
-// =========================
-
+// LOAD QR CODES
 let codes = JSON.parse(localStorage.getItem("qrCodes") || "[]");
 
+// ensure old codes have folder
+codes = codes.map(c => ({
+  folder: "Unsorted",
+  ...c,
+  folder: c.folder || "Unsorted"
+}));
+localStorage.setItem("qrCodes", JSON.stringify(codes));
 </script>
 
   <div class="app">
@@ -310,6 +311,10 @@ let codes = JSON.parse(localStorage.getItem("qrCodes") || "[]");
           <label for="url">Destination URL</label>
           <input id="url" placeholder="https://example.com" />
         </div>
+        <div class="field">
+          <label for="folder">Folder</label>
+          <input id="folder" placeholder="e.g. School, Business, Personal" />
+        </div>
       </div>
       <button class="btn-primary" id="createBtn">
         <span>＋</span>
@@ -322,32 +327,52 @@ let codes = JSON.parse(localStorage.getItem("qrCodes") || "[]");
         <div class="section-title">Your QR Codes</div>
         <div class="count"><span id="count">0</span> codes</div>
       </div>
+
+      <select id="folderFilter" class="btn-secondary" style="margin-bottom: 12px; width: 100%; max-width: 260px;">
+        <option value="all">All Folders</option>
+      </select>
+
       <div class="grid" id="grid"></div>
     </section>
   </div>
 
 <script>
-
 // DOM elements
 const grid = document.getElementById("grid");
 const countEl = document.getElementById("count");
 const createBtn = document.getElementById("createBtn");
 const nameInput = document.getElementById("name");
 const urlInput = document.getElementById("url");
+const folderInput = document.getElementById("folder");
+const folderFilter = document.getElementById("folderFilter");
 
-// RENDER FUNCTION
+// update folder dropdown
+function updateFolderList() {
+  const folders = [...new Set(codes.map(c => c.folder))];
+  folderFilter.innerHTML = `<option value="all">All Folders</option>`;
+  folders.forEach(f => {
+    folderFilter.innerHTML += `<option value="${f}">${f}</option>`;
+  });
+}
+
+// render cards
 function render() {
-  countEl.textContent = codes.length;
+  const selected = folderFilter.value;
+  const list = selected === "all"
+    ? codes
+    : codes.filter(c => c.folder === selected);
+
+  countEl.textContent = list.length;
   grid.innerHTML = "";
 
-  codes.forEach(code => {
+  list.forEach(code => {
     const card = document.createElement("article");
     card.className = "card";
 
     card.innerHTML = `
       <div class="card-top">
         <div class="qr-box">
-          <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(code.id)}" alt="QR" />
+          <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(code.id)}" alt="QR" />
         </div>
         <div class="card-main">
           <div class="card-title-row">
@@ -359,6 +384,7 @@ function render() {
           </div>
           <div class="url">${code.url}</div>
           <div class="stats-row">
+            <div class="pill"><strong>${code.folder}</strong> folder</div>
             <div class="pill"><strong>${code.scans}</strong> scans</div>
             <div class="pill"><strong>${code.uniqueVisitors}</strong> unique</div>
             <div class="pill"><strong>${code.todayScans}</strong> today</div>
@@ -400,16 +426,18 @@ function render() {
   });
 }
 
-// CREATE NEW QR
+// create new QR
 createBtn.addEventListener("click", () => {
   const name = nameInput.value.trim();
   const url = urlInput.value.trim();
+  const folder = folderInput.value.trim() || "Unsorted";
   if (!name || !url) return;
 
   codes.push({
     id: crypto.randomUUID(),
     name,
     url,
+    folder,
     scans: 0,
     uniqueVisitors: 0,
     lastScan: "—",
@@ -422,10 +450,12 @@ createBtn.addEventListener("click", () => {
 
   nameInput.value = "";
   urlInput.value = "";
+  folderInput.value = "";
+  updateFolderList();
   render();
 });
 
-// BUTTON ACTIONS
+// actions
 grid.addEventListener("click", (e) => {
   const btn = e.target.closest("button");
   if (!btn) return;
@@ -438,16 +468,20 @@ grid.addEventListener("click", (e) => {
   if (action === "delete") {
     const idx = codes.findIndex(c => c.id === id);
     if (idx !== -1) codes.splice(idx, 1);
-
     localStorage.setItem("qrCodes", JSON.stringify(codes));
+    updateFolderList();
     render();
   }
 
   if (action === "edit") {
     const newName = prompt("Rename QR code:", code.name);
     if (newName) code.name = newName.trim();
-
+    const newFolder = prompt("Move to folder (leave blank to keep):", code.folder);
+    if (newFolder !== null && newFolder.trim() !== "") {
+      code.folder = newFolder.trim();
+    }
     localStorage.setItem("qrCodes", JSON.stringify(codes));
+    updateFolderList();
     render();
   }
 
@@ -457,7 +491,7 @@ grid.addEventListener("click", (e) => {
 
   if (action === "download") {
     const a = document.createElement("a");
-    a.href = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(code.id)}`;
+    a.href = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(code.id)}`;
     a.download = `${code.name || "qr-code"}.png`;
     document.body.appendChild(a);
     a.click();
@@ -465,8 +499,13 @@ grid.addEventListener("click", (e) => {
   }
 });
 
-render();
+// folder filter change
+folderFilter.addEventListener("change", render);
 
+// initial
+updateFolderList();
+render();
 </script>
 
 </body>
+</html>
