@@ -1,517 +1,293 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-<script>
-  const supabaseUrl = "YOUR_SUPABASE_URL";
-  const supabaseKey = "YOUR_ANON_PUBLIC_KEY";
-  const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
-</script>
   <meta charset="UTF-8" />
-  <title>QR Code Manager</title>
+  <title>My Dynamic QR Codes</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
-    :root {
-      --bg: #050505;
-      --card: #111111;
-      --accent: #ffffff;
-      --muted: #888888;
-      --border: #222222;
-      --danger: #ff4b4b;
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif; }
     body {
-      background: radial-gradient(circle at top, #1b1b1b 0, #050505 45%, #000 100%);
-      color: #f5f5f5;
-      min-height: 100vh;
-      padding: 32px 16px;
-      display: flex;
-      justify-content: center;
-    }
-    .app {
-      width: 100%;
-      max-width: 960px;
-    }
-    .header {
-      margin-bottom: 24px;
-    }
-    .title {
-      font-size: 28px;
-      font-weight: 600;
-      letter-spacing: 0.03em;
-    }
-    .subtitle {
-      margin-top: 4px;
-      font-size: 13px;
-      color: var(--muted);
-    }
-    .create-card {
-      background: rgba(10,10,10,0.95);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 18px 18px 16px;
-      margin-bottom: 20px;
-      backdrop-filter: blur(16px);
-    }
-    .section-title {
-      font-size: 13px;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: var(--muted);
-      margin-bottom: 10px;
-    }
-    .field-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 10px;
-    }
-    .field {
-      flex: 1 1 200px;
+      margin: 0;
+      font-family: system-ui, sans-serif;
+      background: #05060a;
+      color: #f9fafb;
       display: flex;
       flex-direction: column;
-      gap: 4px;
+      min-height: 100vh;
     }
-    label {
+    header {
+      padding: 16px 20px;
+      border-bottom: 1px solid #111827;
+      background: #020617;
+      position: sticky;
+      top: 0;
+    }
+    header h1 {
+      font-size: 18px;
+      margin: 0;
+    }
+    header span {
       font-size: 12px;
-      color: var(--muted);
+      color: #9ca3af;
     }
-    input {
-      background: #050505;
-      border-radius: 999px;
-      border: 1px solid var(--border);
-      padding: 8px 12px;
-      color: #f5f5f5;
-      font-size: 13px;
-      outline: none;
-    }
-    input:focus {
-      border-color: #ffffff;
-    }
-    .btn-primary {
-      margin-top: 4px;
-      border-radius: 999px;
-      border: none;
-      background: #ffffff;
-      color: #000;
-      font-size: 13px;
-      padding: 8px 14px;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .btn-primary span {
-      font-size: 16px;
-      line-height: 0;
-    }
-    .list-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      margin-bottom: 8px;
-    }
-    .count {
-      font-size: 12px;
-      color: var(--muted);
-    }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 14px;
+    main {
+      padding: 16px;
+      max-width: 900px;
+      width: 100%;
+      margin: 0 auto;
+      flex: 1;
     }
     .card {
-      background: rgba(10,10,10,0.95);
-      border-radius: 16px;
-      border: 1px solid var(--border);
-      padding: 14px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    .card-top {
-      display: flex;
-      gap: 10px;
-    }
-    .qr-box {
-      width: 160px;
-      height: 160px;
+      background: #020617;
       border-radius: 12px;
-      background: #000;
+      border: 1px solid #111827;
+      padding: 14px 16px;
       display: flex;
+      gap: 14px;
       align-items: center;
-      justify-content: center;
-      overflow: hidden;
+      margin-bottom: 10px;
     }
     .qr-box img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
+      width: 96px;
+      height: 96px;
+      border-radius: 8px;
     }
     .card-main {
       flex: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-    .card-title-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 6px;
     }
     .card-title {
       font-size: 14px;
-      font-weight: 500;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      font-weight: 600;
+      margin-bottom: 4px;
+      display: flex;
+      justify-content: space-between;
+    }
+    .card-title span.folder {
+      font-size: 11px;
+      color: #9ca3af;
+      background: #020617;
+      border-radius: 999px;
+      padding: 2px 8px;
+      border: 1px solid #111827;
+    }
+    .card-url {
+      font-size: 12px;
+      color: #9ca3af;
+      word-break: break-all;
+      margin-bottom: 6px;
     }
     .card-actions {
       display: flex;
-      gap: 4px;
+      gap: 6px;
+      flex-wrap: wrap;
     }
-    .icon-btn {
-      width: 22px;
-      height: 22px;
+    button {
       border-radius: 999px;
-      border: 1px solid var(--border);
-      background: transparent;
-      color: var(--muted);
+      border: 1px solid #1f2937;
+      background: #020617;
+      color: #e5e7eb;
       font-size: 11px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
+      padding: 4px 10px;
       cursor: pointer;
     }
-    .icon-btn.danger {
-      border-color: rgba(255,75,75,0.4);
-      color: var(--danger);
+    button.primary {
+      background: #2563eb;
+      border-color: #2563eb;
+      color: #f9fafb;
     }
-    .url {
-      font-size: 11px;
-      color: var(--muted);
-      word-break: break-all;
+    button.danger {
+      border-color: #b91c1c;
+      color: #fecaca;
     }
-    .stats-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 4px;
+    .new-form {
+      background: #020617;
+      border-radius: 12px;
+      border: 1px solid #111827;
+      padding: 14px 16px;
+      margin-bottom: 16px;
     }
-    .pill {
-      border-radius: 999px;
-      border: 1px solid var(--border);
-      padding: 3px 8px;
-      font-size: 11px;
-      color: var(--muted);
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
+    .new-form h2 {
+      font-size: 14px;
+      margin: 0 0 8px;
     }
-    .pill strong {
-      color: #f5f5f5;
-      font-weight: 500;
-    }
-    .analytics {
-      margin-top: 6px;
-      padding-top: 6px;
-      border-top: 1px dashed #222;
+    .field {
       display: flex;
       flex-direction: column;
       gap: 4px;
+      margin-bottom: 8px;
     }
-    .analytics-title {
+    .field label {
       font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: var(--muted);
+      color: #9ca3af;
     }
-    .analytics-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0,1fr));
-      gap: 4px;
-    }
-    .analytics-item {
-      font-size: 11px;
-      color: var(--muted);
-    }
-    .analytics-item strong {
-      display: block;
-      color: #f5f5f5;
-      font-weight: 500;
-    }
-    .card-footer {
-      display: flex;
-      justify-content: space-between;
-      gap: 6px;
-      margin-top: 6px;
-    }
-    .btn-secondary {
-      flex: 1;
-      border-radius: 999px;
-      border: 1px solid var(--border);
-      background: #050505;
-      color: #f5f5f5;
+    .field input {
+      border-radius: 8px;
+      border: 1px solid #1f2937;
+      background: #020617;
+      color: #e5e7eb;
       font-size: 12px;
-      padding: 6px 10px;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
+      padding: 6px 8px;
     }
-    .btn-secondary span {
-      font-size: 13px;
-    }
-    @media (max-width: 600px) {
-      .card-top { flex-direction: column; }
-      .qr-box { width: 100%; height: 200px; }
+    .empty {
+      font-size: 12px;
+      color: #6b7280;
+      text-align: center;
+      margin-top: 20px;
     }
   </style>
+
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 </head>
-
 <body>
+  <header>
+    <h1>My Dynamic QR Codes</h1>
+    <span>Private dashboard • Editable QR links • Works on any device</span>
+  </header>
 
-<script>
-// PASSWORD PROTECTION
-const PASSWORD = "qrcode";
-
-let entered = localStorage.getItem("qr_pass_ok");
-
-if (entered !== "yes") {
-  const userPass = prompt("Enter password to access QR Manager:");
-  if (userPass !== PASSWORD) {
-    document.body.innerHTML = "<h2 style='color:white;text-align:center;margin-top:40px;'>Access Denied</h2>";
-    throw new Error("Wrong password");
-  }
-  localStorage.setItem("qr_pass_ok", "yes");
-}
-
-// LOAD QR CODES
-let codes = JSON.parse(localStorage.getItem("qrCodes") || "[]");
-
-// ensure old codes have folder
-codes = codes.map(c => ({
-  folder: "Unsorted",
-  ...c,
-  folder: c.folder || "Unsorted"
-}));
-localStorage.setItem("qrCodes", JSON.stringify(codes));
-</script>
-
-  <div class="app">
-    <header class="header">
-      <div class="title">QR Code Manager</div>
-      <div class="subtitle">Create and track dynamic QR codes with per‑code analytics.</div>
-    </header>
-
-    <section class="create-card">
-      <div class="section-title">Create New QR Code</div>
-      <div class="field-row">
-        <div class="field">
-          <label for="name">Name</label>
-          <input id="name" placeholder="e.g. YouTube Link" />
-        </div>
-        <div class="field">
-          <label for="url">Destination URL</label>
-          <input id="url" placeholder="https://example.com" />
-        </div>
-        <div class="field">
-          <label for="folder">Folder</label>
-          <input id="folder" placeholder="e.g. School, Business, Personal" />
-        </div>
+  <main>
+    <section class="new-form">
+      <h2>Create new QR code</h2>
+      <div class="field">
+        <label>Name</label>
+        <input id="name" placeholder="e.g. Instagram" />
       </div>
-      <button class="btn-primary" id="createBtn">
-        <span>＋</span>
-        Create QR Code
-      </button>
+      <div class="field">
+        <label>Destination URL</label>
+        <input id="url" placeholder="https://..." />
+      </div>
+      <div class="field">
+        <label>Folder (optional)</label>
+        <input id="folder" placeholder="e.g. Personal" />
+      </div>
+      <button id="createBtn" class="primary">Create QR</button>
     </section>
 
-    <section>
-      <div class="list-header">
-        <div class="section-title">Your QR Codes</div>
-        <div class="count"><span id="count">0</span> codes</div>
-      </div>
+    <section id="list"></section>
+    <div id="emptyState" class="empty" style="display:none;">No QR codes yet.</div>
+  </main>
 
-      <select id="folderFilter" class="btn-secondary" style="margin-bottom: 12px; width: 100%; max-width: 260px;">
-        <option value="all">All Folders</option>
-      </select>
+  <script>
+    // ⭐ PASTE YOUR KEYS HERE ⭐
+    const SUPABASE_URL = "YOUR_URL_HERE";
+    const SUPABASE_ANON_KEY = "YOUR_ANON_KEY_HERE";
 
-      <div class="grid" id="grid"></div>
-    </section>
-  </div>
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-<script>
-// DOM elements
-const grid = document.getElementById("grid");
-const countEl = document.getElementById("count");
-const createBtn = document.getElementById("createBtn");
-const nameInput = document.getElementById("name");
-const urlInput = document.getElementById("url");
-const folderInput = document.getElementById("folder");
-const folderFilter = document.getElementById("folderFilter");
+    let codes = [];
 
-// update folder dropdown
-function updateFolderList() {
-  const folders = [...new Set(codes.map(c => c.folder))];
-  folderFilter.innerHTML = `<option value="all">All Folders</option>`;
-  folders.forEach(f => {
-    folderFilter.innerHTML += `<option value="${f}">${f}</option>`;
-  });
-}
+    async function loadCodes() {
+      const { data } = await supabase
+        .from("qrcodes")
+        .select("*")
+        .order("created_at", { ascending: false });
 
-// render cards
-function render() {
-  const selected = folderFilter.value;
-  const list = selected === "all"
-    ? codes
-    : codes.filter(c => c.folder === selected);
-
-  countEl.textContent = list.length;
-  grid.innerHTML = "";
-
-  list.forEach(code => {
-    const card = document.createElement("article");
-    card.className = "card";
-
-    card.innerHTML = `
-      <div class="card-top">
-        <div class="qr-box">
-          <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(location.origin + "/redirect.html?id=" + code.id)}" alt="QR" />
-        </div>
-        <div class="card-main">
-          <div class="card-title-row">
-            <div class="card-title" title="${code.name}">${code.name}</div>
-            <div class="card-actions">
-              <button class="icon-btn" data-action="edit" data-id="${code.id}">✎</button>
-              <button class="icon-btn danger" data-action="delete" data-id="${code.id}">✕</button>
-            </div>
-          </div>
-          <div class="url">${code.url}</div>
-          <div class="stats-row">
-            <div class="pill"><strong>${code.folder}</strong> folder</div>
-            <div class="pill"><strong>${code.scans}</strong> scans</div>
-            <div class="pill"><strong>${code.uniqueVisitors}</strong> unique</div>
-            <div class="pill"><strong>${code.todayScans}</strong> today</div>
-          </div>
-          <div class="analytics">
-            <div class="analytics-title">Analytics</div>
-            <div class="analytics-grid">
-              <div class="analytics-item">
-                <strong>${code.lastScan}</strong>
-                Last scan
-              </div>
-              <div class="analytics-item">
-                <strong>${code.deviceBreakdown.mobile}% / ${code.deviceBreakdown.desktop}%</strong>
-                Mobile / Desktop
-              </div>
-              <div class="analytics-item">
-                <strong>${code.locationTop}</strong>
-                Top locations
-              </div>
-              <div class="analytics-item">
-                <strong>${code.scans === 0 ? "—" : (code.scans / Math.max(1, code.uniqueVisitors)).toFixed(1)}</strong>
-                Avg scans / user
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="card-footer">
-        <button class="btn-secondary" data-action="copy" data-id="${code.id}">
-          <span>⧉</span> Copy URL
-        </button>
-        <button class="btn-secondary" data-action="download" data-id="${code.id}">
-          <span>⬇</span> Download
-        </button>
-      </div>
-    `;
-
-    grid.appendChild(card);
-  });
-}
-
-// create new QR
-createBtn.addEventListener("click", () => {
-  const name = nameInput.value.trim();
-  const url = urlInput.value.trim();
-  const folder = folderInput.value.trim() || "Unsorted";
-  if (!name || !url) return;
-
-  codes.push({
-    id: crypto.randomUUID(),
-    name,
-    url,
-    folder,
-    scans: 0,
-    uniqueVisitors: 0,
-    lastScan: "—",
-    todayScans: 0,
-    deviceBreakdown: { mobile: 0, desktop: 0 },
-    locationTop: "—",
-  });
-
-  localStorage.setItem("qrCodes", JSON.stringify(codes));
-
-  nameInput.value = "";
-  urlInput.value = "";
-  folderInput.value = "";
-  updateFolderList();
-  render();
-});
-
-// actions
-grid.addEventListener("click", (e) => {
-  const btn = e.target.closest("button");
-  if (!btn) return;
-
-  const id = btn.dataset.id;
-  const action = btn.dataset.action;
-  const code = codes.find(c => c.id === id);
-  if (!code) return;
-
-  if (action === "delete") {
-    const idx = codes.findIndex(c => c.id === id);
-    if (idx !== -1) codes.splice(idx, 1);
-    localStorage.setItem("qrCodes", JSON.stringify(codes));
-    updateFolderList();
-    render();
-  }
-
-  if (action === "edit") {
-    const newName = prompt("Rename QR code:", code.name);
-    if (newName) code.name = newName.trim();
-    const newFolder = prompt("Move to folder (leave blank to keep):", code.folder);
-    if (newFolder !== null && newFolder.trim() !== "") {
-      code.folder = newFolder.trim();
+      codes = data || [];
+      render();
     }
-    localStorage.setItem("qrCodes", JSON.stringify(codes));
-    updateFolderList();
-    render();
-  }
 
-  if (action === "copy") {
-    navigator.clipboard.writeText(code.url).catch(() => {});
-  }
+    function render() {
+      const list = document.getElementById("list");
+      const emptyState = document.getElementById("emptyState");
+      list.innerHTML = "";
 
-  if (action === "download") {
-    const a = document.createElement("a");
-   a.href = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(location.origin + "/redirect.html?id=" + code.id)}`;
-    a.download = `${code.name || "qr-code"}.png`;
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-  }
-});
+      if (!codes.length) {
+        emptyState.style.display = "block";
+        return;
+      }
+      emptyState.style.display = "none";
 
-// folder filter change
-folderFilter.addEventListener("change", render);
+      codes.forEach(code => {
+        const redirectUrl = location.origin + "/r.html?id=" + code.id;
+        const qrSrc =
+          "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=" +
+          encodeURIComponent(redirectUrl);
 
-// initial
-updateFolderList();
-render();
-</script>
+        const card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `
+          <div class="qr-box">
+            <img src="${qrSrc}" />
+          </div>
+          <div class="card-main">
+            <div class="card-title">
+              <span>${code.name || "Untitled"}</span>
+              <span class="folder">${code.folder || "No folder"}</span>
+            </div>
+            <div class="card-url">${code.url}</div>
+            <div class="card-actions">
+              <button onclick="window.open('${code.url}', '_blank')">Open</button>
+              <button onclick="copyLink('${redirectUrl}', this)">Copy link</button>
+              <button onclick="downloadQR('${redirectUrl}', '${code.name}')">Download</button>
+              <button onclick="editCode('${code.id}')">Edit</button>
+              <button class="danger" onclick="deleteCode('${code.id}')">Delete</button>
+            </div>
+          </div>
+        `;
+        list.appendChild(card);
+      });
+    }
 
+    async function createCode() {
+      const name = document.getElementById("name").value.trim();
+      const url = document.getElementById("url").value.trim();
+      const folder = document.getElementById("folder").value.trim();
+
+      if (!url) return alert("URL required");
+
+      await supabase.from("qrcodes").insert({ name, url, folder });
+
+      document.getElementById("name").value = "";
+      document.getElementById("url").value = "";
+      document.getElementById("folder").value = "";
+
+      loadCodes();
+    }
+
+    async function editCode(id) {
+      const code = codes.find(c => c.id === id);
+      if (!code) return;
+
+      const newName = prompt("New name:", code.name);
+      if (newName === null) return;
+
+      const newFolder = prompt("New folder:", code.folder);
+      if (newFolder === null) return;
+
+      const newUrl = prompt("New URL:", code.url);
+      if (!newUrl) return;
+
+      await supabase
+        .from("qrcodes")
+        .update({ name: newName, folder: newFolder, url: newUrl })
+        .eq("id", id);
+
+      loadCodes();
+    }
+
+    async function deleteCode(id) {
+      if (!confirm("Delete this QR code?")) return;
+
+      await supabase.from("qrcodes").delete().eq("id", id);
+      loadCodes();
+    }
+
+    function copyLink(link, btn) {
+      navigator.clipboard.writeText(link);
+      btn.textContent = "Copied!";
+      setTimeout(() => (btn.textContent = "Copy link"), 1000);
+    }
+
+    function downloadQR(link, name) {
+      const a = document.createElement("a");
+      a.href =
+        "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=" +
+        encodeURIComponent(link);
+      a.download = (name || "qr") + ".png";
+      a.click();
+    }
+
+    document.getElementById("createBtn").addEventListener("click", createCode);
+
+    loadCodes();
+  </script>
 </body>
 </html>
