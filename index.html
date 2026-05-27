@@ -264,7 +264,35 @@
     }
   </style>
 </head>
+
 <body>
+
+<script>
+// =========================
+// PASSWORD PROTECTION
+// =========================
+
+const PASSWORD = "qrcode";
+
+let entered = sessionStorage.getItem("qr_pass_ok");
+
+if (entered !== "yes") {
+  const userPass = prompt("Enter password to access QR Manager:");
+  if (userPass !== PASSWORD) {
+    document.body.innerHTML = "<h2 style='color:white;text-align:center;margin-top:40px;'>Access Denied</h2>";
+    throw new Error("Wrong password");
+  }
+  sessionStorage.setItem("qr_pass_ok", "yes");
+}
+
+// =========================
+// LOAD QR CODES (Step 2)
+// =========================
+
+let codes = JSON.parse(localStorage.getItem("qrCodes") || "[]");
+
+</script>
+
   <div class="app">
     <header class="header">
       <div class="title">QR Code Manager</div>
@@ -298,172 +326,147 @@
     </section>
   </div>
 
-  <script>
-    // Password to access the site
-const PASSWORD = "qrcode";
+<script>
 
-let entered = localStorage.getItem("enteredPassword");
+// DOM elements
+const grid = document.getElementById("grid");
+const countEl = document.getElementById("count");
+const createBtn = document.getElementById("createBtn");
+const nameInput = document.getElementById("name");
+const urlInput = document.getElementById("url");
 
-if (entered !== PASSWORD) {
-  const userPass = prompt("Enter password to access QR Manager:");
-  if (userPass !== PASSWORD) {
-    document.body.innerHTML = "<h2 style='color:white;text-align:center;margin-top:40px;'>Access Denied</h2>";
-    throw new Error("Wrong password");
-  }
-  localStorage.setItem("enteredPassword", PASSWORD);
-    // Simple in-memory store (replace with localStorage or backend if you want persistence)
-    const codes = [
-      {
-        id: crypto.randomUUID(),
-        name: "test",
-        url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-        scans: 3,
-        uniqueVisitors: 2,
-        lastScan: "2026-05-26 19:32",
-        todayScans: 1,
-        deviceBreakdown: { mobile: 70, desktop: 30 },
-        locationTop: "US, UK",
-      },
-      {
-        id: crypto.randomUUID(),
-        name: "My Website",
-        url: "https://google.com",
-        scans: 0,
-        uniqueVisitors: 0,
-        lastScan: "—",
-        todayScans: 0,
-        deviceBreakdown: { mobile: 0, desktop: 0 },
-        locationTop: "—",
-      }
-    ];
+// RENDER FUNCTION
+function render() {
+  countEl.textContent = codes.length;
+  grid.innerHTML = "";
 
-    const grid = document.getElementById("grid");
-    const countEl = document.getElementById("count");
-    const createBtn = document.getElementById("createBtn");
-    const nameInput = document.getElementById("name");
-    const urlInput = document.getElementById("url");
+  codes.forEach(code => {
+    const card = document.createElement("article");
+    card.className = "card";
 
-    function render() {
-      countEl.textContent = codes.length;
-      grid.innerHTML = "";
-      codes.forEach(code => {
-        const card = document.createElement("article");
-        card.className = "card";
-
-        card.innerHTML = `
-          <div class="card-top">
-            <div class="qr-box">
-              <!-- Replace with real QR image if you have one -->
-              <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(code.id)}" alt="QR" />
+    card.innerHTML = `
+      <div class="card-top">
+        <div class="qr-box">
+          <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(code.id)}" alt="QR" />
+        </div>
+        <div class="card-main">
+          <div class="card-title-row">
+            <div class="card-title" title="${code.name}">${code.name}</div>
+            <div class="card-actions">
+              <button class="icon-btn" data-action="edit" data-id="${code.id}">✎</button>
+              <button class="icon-btn danger" data-action="delete" data-id="${code.id}">✕</button>
             </div>
-            <div class="card-main">
-              <div class="card-title-row">
-                <div class="card-title" title="${code.name}">${code.name}</div>
-                <div class="card-actions">
-                  <button class="icon-btn" data-action="edit" data-id="${code.id}">✎</button>
-                  <button class="icon-btn danger" data-action="delete" data-id="${code.id}">✕</button>
-                </div>
+          </div>
+          <div class="url">${code.url}</div>
+          <div class="stats-row">
+            <div class="pill"><strong>${code.scans}</strong> scans</div>
+            <div class="pill"><strong>${code.uniqueVisitors}</strong> unique</div>
+            <div class="pill"><strong>${code.todayScans}</strong> today</div>
+          </div>
+          <div class="analytics">
+            <div class="analytics-title">Analytics</div>
+            <div class="analytics-grid">
+              <div class="analytics-item">
+                <strong>${code.lastScan}</strong>
+                Last scan
               </div>
-              <div class="url">${code.url}</div>
-              <div class="stats-row">
-                <div class="pill"><strong>${code.scans}</strong> scans</div>
-                <div class="pill"><strong>${code.uniqueVisitors}</strong> unique</div>
-                <div class="pill"><strong>${code.todayScans}</strong> today</div>
+              <div class="analytics-item">
+                <strong>${code.deviceBreakdown.mobile}% / ${code.deviceBreakdown.desktop}%</strong>
+                Mobile / Desktop
               </div>
-              <div class="analytics">
-                <div class="analytics-title">Analytics</div>
-                <div class="analytics-grid">
-                  <div class="analytics-item">
-                    <strong>${code.lastScan}</strong>
-                    Last scan
-                  </div>
-                  <div class="analytics-item">
-                    <strong>${code.deviceBreakdown.mobile}% / ${code.deviceBreakdown.desktop}%</strong>
-                    Mobile / Desktop
-                  </div>
-                  <div class="analytics-item">
-                    <strong>${code.locationTop}</strong>
-                    Top locations
-                  </div>
-                  <div class="analytics-item">
-                    <strong>${code.scans === 0 ? "—" : (code.scans / Math.max(1, code.uniqueVisitors)).toFixed(1)}</strong>
-                    Avg scans / user
-                  </div>
-                </div>
+              <div class="analytics-item">
+                <strong>${code.locationTop}</strong>
+                Top locations
+              </div>
+              <div class="analytics-item">
+                <strong>${code.scans === 0 ? "—" : (code.scans / Math.max(1, code.uniqueVisitors)).toFixed(1)}</strong>
+                Avg scans / user
               </div>
             </div>
           </div>
-          <div class="card-footer">
-            <button class="btn-secondary" data-action="copy" data-id="${code.id}">
-              <span>⧉</span> Copy URL
-            </button>
-            <button class="btn-secondary" data-action="download" data-id="${code.id}">
-              <span>⬇</span> Download
-            </button>
-          </div>
-        `;
+        </div>
+      </div>
+      <div class="card-footer">
+        <button class="btn-secondary" data-action="copy" data-id="${code.id}">
+          <span>⧉</span> Copy URL
+        </button>
+        <button class="btn-secondary" data-action="download" data-id="${code.id}">
+          <span>⬇</span> Download
+        </button>
+      </div>
+    `;
 
-        grid.appendChild(card);
-      });
-    }
+    grid.appendChild(card);
+  });
+}
 
-    createBtn.addEventListener("click", () => {
-      const name = nameInput.value.trim();
-      const url = urlInput.value.trim();
-      if (!name || !url) return;
+// CREATE NEW QR
+createBtn.addEventListener("click", () => {
+  const name = nameInput.value.trim();
+  const url = urlInput.value.trim();
+  if (!name || !url) return;
 
-      codes.push({
-        id: crypto.randomUUID(),
-        name,
-        url,
-        scans: 0,
-        uniqueVisitors: 0,
-        lastScan: "—",
-        todayScans: 0,
-        deviceBreakdown: { mobile: 0, desktop: 0 },
-        locationTop: "—",
-      });
+  codes.push({
+    id: crypto.randomUUID(),
+    name,
+    url,
+    scans: 0,
+    uniqueVisitors: 0,
+    lastScan: "—",
+    todayScans: 0,
+    deviceBreakdown: { mobile: 0, desktop: 0 },
+    locationTop: "—",
+  });
 
-      nameInput.value = "";
-      urlInput.value = "";
-      render();
-    });
+  localStorage.setItem("qrCodes", JSON.stringify(codes));
 
-    grid.addEventListener("click", (e) => {
-      const btn = e.target.closest("button");
-      if (!btn) return;
-      const id = btn.dataset.id;
-      const action = btn.dataset.action;
-      const code = codes.find(c => c.id === id);
-      if (!code) return;
+  nameInput.value = "";
+  urlInput.value = "";
+  render();
+});
 
-      if (action === "delete") {
-        const idx = codes.findIndex(c => c.id === id);
-        if (idx !== -1) codes.splice(idx, 1);
-        render();
-      }
+// BUTTON ACTIONS
+grid.addEventListener("click", (e) => {
+  const btn = e.target.closest("button");
+  if (!btn) return;
 
-      if (action === "edit") {
-        const newName = prompt("Rename QR code:", code.name);
-        if (newName) code.name = newName.trim();
-        render();
-      }
+  const id = btn.dataset.id;
+  const action = btn.dataset.action;
+  const code = codes.find(c => c.id === id);
+  if (!code) return;
 
-      if (action === "copy") {
-        navigator.clipboard.writeText(code.url).catch(() => {});
-      }
+  if (action === "delete") {
+    const idx = codes.findIndex(c => c.id === id);
+    if (idx !== -1) codes.splice(idx, 1);
 
-      if (action === "download") {
-        // Simple download of the QR image URL
-        const a = document.createElement("a");
-        a.href = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(code.id)}`;
-        a.download = `${code.name || "qr-code"}.png`;
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-      }
-    });
-
+    localStorage.setItem("qrCodes", JSON.stringify(codes));
     render();
-  </script>
+  }
+
+  if (action === "edit") {
+    const newName = prompt("Rename QR code:", code.name);
+    if (newName) code.name = newName.trim();
+
+    localStorage.setItem("qrCodes", JSON.stringify(codes));
+    render();
+  }
+
+  if (action === "copy") {
+    navigator.clipboard.writeText(code.url).catch(() => {});
+  }
+
+  if (action === "download") {
+    const a = document.createElement("a");
+    a.href = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(code.id)}`;
+    a.download = `${code.name || "qr-code"}.png`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+  }
+});
+
+render();
+
+</script>
+
 </body>
