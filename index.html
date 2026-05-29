@@ -5,10 +5,10 @@
   <title>TrackLink Digital — QR Codes & Websites</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="TrackLink Digital — Fast, modern QR code and website solutions. QR Codes • Websites • One Place. On track for digital solutions." />
+  <link rel="icon" type="image/png" href="logo.png" />
   <style>
     :root {
       --bg: #020617;
-      --bg-alt: #020617;
       --card: #020617;
       --accent: #6366f1;
       --accent-soft: rgba(99, 102, 241, 0.18);
@@ -64,9 +64,10 @@
     }
 
     .logo-svg {
-      width: 40px;
-      height: 40px;
+      height: 45px;
+      width: auto;
       flex-shrink: 0;
+      border-radius: 6px;
     }
 
     .brand-main {
@@ -250,13 +251,14 @@
       padding: 14px;
       background: radial-gradient(circle at top, #020617 0, #020617 50%, #020617 100%);
       margin-bottom: 14px;
+      text-align: center;
     }
 
     .hero-logo {
       width: 100%;
-      max-width: 260px;
-      margin: 0 auto;
-      display: block;
+      max-width: 300px;
+      height: auto;
+      border-radius: 10px;
     }
 
     .hero-card-footer {
@@ -523,21 +525,7 @@
 <header>
   <div class="nav">
     <div class="nav-left">
-      <!-- LOGO ICON -->
-      <svg class="logo-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-        <rect width="200" height="200" rx="26" fill="#020617"/>
-        <rect x="40" y="40" width="120" height="80" rx="12" fill="#0b1120" stroke="#6366f1" stroke-width="4"/>
-        <rect x="55" y="55" width="24" height="24" fill="#6366f1"/>
-        <rect x="93" y="55" width="24" height="12" fill="#6366f1"/>
-        <rect x="93" y="71" width="12" height="12" fill="#6366f1"/>
-        <rect x="131" y="55" width="12" height="24" fill="#6366f1"/>
-        <rect x="55" y="87" width="12" height="24" fill="#6366f1"/>
-        <rect x="79" y="99" width="24" height="12" fill="#6366f1"/>
-        <rect x="117" y="87" width="24" height="24" fill="#6366f1"/>
-        <rect x="70" y="132" width="60" height="10" rx="5" fill="#6366f1"/>
-        <rect x="48" y="150" width="104" height="10" rx="5" fill="#6366f1"/>
-      </svg>
-
+      <img src="logo.png" alt="TrackLink Digital Logo" class="logo-svg" />
       <div>
         <div class="brand-main">TrackLink Digital</div>
         <div class="brand-sub">QR Codes • Websites • One Place</div>
@@ -583,20 +571,7 @@
         </div>
 
         <div class="hero-logo-wrap">
-          <!-- BIG LOGO PREVIEW -->
-          <svg class="hero-logo" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-            <rect width="200" height="200" rx="26" fill="#020617"/>
-            <rect x="40" y="40" width="120" height="80" rx="12" fill="#0b1120" stroke="#6366f1" stroke-width="4"/>
-            <rect x="55" y="55" width="24" height="24" fill="#6366f1"/>
-            <rect x="93" y="55" width="24" height="12" fill="#6366f1"/>
-            <rect x="93" y="71" width="12" height="12" fill="#6366f1"/>
-            <rect x="131" y="55" width="12" height="24" fill="#6366f1"/>
-            <rect x="55" y="87" width="12" height="24" fill="#6366f1"/>
-            <rect x="79" y="99" width="24" height="12" fill="#6366f1"/>
-            <rect x="117" y="87" width="24" height="24" fill="#6366f1"/>
-            <rect x="70" y="132" width="60" height="10" rx="5" fill="#6366f1"/>
-            <rect x="48" y="150" width="104" height="10" rx="5" fill="#6366f1"/>
-          </svg>
+          <img src="logo.png" alt="TrackLink Digital Logo" class="hero-logo" />
         </div>
 
         <div class="hero-card-footer">
@@ -803,3 +778,4 @@
 </footer>
 
 </body>
+</html>
