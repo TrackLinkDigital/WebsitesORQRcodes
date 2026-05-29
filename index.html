@@ -4,12 +4,12 @@
   <meta charset="UTF-8" />
   <title>TrackLink Digital — QR Codes & Websites</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="TrackLink Digital — Fast, modern QR code and website solutions. QR Codes • Websites • One Place. On track for digital solutions." />
   <link rel="icon" type="image/png" href="logo.png" />
+
   <style>
     :root {
       --bg: #020617;
-      --card: #020617;
+      --card: #0f172a;
       --accent: #6366f1;
       --accent-soft: rgba(99, 102, 241, 0.18);
       --text: #e5e7eb;
@@ -19,24 +19,27 @@
     }
 
     * {
-      box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      box-sizing: border-box;
+      font-family: system-ui, sans-serif;
     }
 
     body {
       background: radial-gradient(circle at top, #0b1120 0, #020617 45%, #020617 100%);
       color: var(--text);
+      padding-top: 70px;
     }
 
+    /* NAVBAR */
     header {
-      position: sticky;
+      position: fixed;
       top: 0;
-      z-index: 20;
-      backdrop-filter: blur(18px);
+      width: 100%;
       background: rgba(2, 6, 23, 0.92);
+      backdrop-filter: blur(18px);
       border-bottom: 1px solid var(--border);
+      z-index: 9999;
     }
 
     .nav {
@@ -44,8 +47,8 @@
       margin: 0 auto;
       padding: 14px 20px;
       display: flex;
-      align-items: center;
       justify-content: space-between;
+      align-items: center;
     }
 
     .nav-left {
@@ -56,7 +59,6 @@
 
     .logo-svg {
       height: 45px;
-      width: auto;
       border-radius: 6px;
     }
 
@@ -72,21 +74,30 @@
 
     .nav-links {
       display: flex;
-      gap: 18px;
-      font-size: 14px;
+      gap: 20px;
+    }
+
+    .nav-links a {
       color: var(--subtext);
+      text-decoration: none;
+      padding: 6px 0;
+      border-bottom: 2px solid transparent;
+      transition: 0.2s ease;
+      cursor: pointer;
     }
 
     .nav-links a:hover {
       color: var(--text);
+      border-bottom-color: var(--accent);
     }
 
+    /* HERO */
     .hero {
       max-width: 1100px;
-      margin: 30px auto 0;
-      padding: 30px 20px 60px;
+      margin: 40px auto;
+      padding: 20px;
       display: grid;
-      grid-template-columns: minmax(0, 3fr) minmax(0, 2.5fr);
+      grid-template-columns: 1fr 1fr;
       gap: 40px;
       align-items: center;
     }
@@ -100,8 +111,8 @@
 
     .hero-title {
       font-size: 40px;
-      line-height: 1.1;
       font-weight: 800;
+      line-height: 1.1;
       margin-bottom: 12px;
     }
 
@@ -113,53 +124,51 @@
       font-size: 16px;
       color: var(--subtext);
       max-width: 420px;
-      margin-bottom: 14px;
     }
 
     .hero-card {
-      width: 100%;
-      max-width: 360px;
-      border-radius: 20px;
-      border: 1px solid var(--border);
       background: var(--card);
-      padding: 18px;
-      box-shadow: 0 18px 60px rgba(15, 23, 42, 0.9);
+      border: 1px solid var(--border);
+      padding: 20px;
+      border-radius: 20px;
+      box-shadow: 0 18px 60px rgba(0,0,0,0.5);
     }
 
     .hero-logo-wrap {
-      border-radius: 16px;
       border: 1px solid var(--border);
       padding: 14px;
-      background: var(--card);
-      margin-bottom: 14px;
+      border-radius: 16px;
+      background: #0a0f1f;
       text-align: center;
+      margin-bottom: 14px;
     }
 
     .hero-logo {
       width: 100%;
-      max-width: 300px;
+      max-width: 260px;
       border-radius: 10px;
     }
 
     .hero-card-footer {
-      font-size: 12px;
-      color: var(--subtext);
       display: flex;
       justify-content: space-between;
-      align-items: center;
+      color: var(--subtext);
+      font-size: 12px;
     }
 
     .hero-card-dot {
       width: 8px;
       height: 8px;
-      border-radius: 999px;
       background: #22c55e;
+      border-radius: 50%;
+      display: inline-block;
     }
 
+    /* SECTIONS */
     .section {
       max-width: 1100px;
       margin: 0 auto;
-      padding: 0 20px 60px;
+      padding: 60px 20px;
     }
 
     .section-header {
@@ -167,29 +176,32 @@
       margin-bottom: 30px;
     }
 
-    .services-grid,
-    .portfolio-grid,
-    .testimonials-grid {
+    .section-sub {
+      color: var(--subtext);
+      font-size: 14px;
+    }
+
+    .grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 18px;
+      gap: 20px;
     }
 
-    .card,
-    .testimonial {
+    .card {
       background: var(--card);
-      border-radius: 16px;
       border: 1px solid var(--border);
-      padding: 18px;
+      padding: 20px;
+      border-radius: 16px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.4);
     }
 
+    /* BENEFITS */
     .benefits-list {
       max-width: 700px;
       margin: 0 auto;
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 10px;
-      font-size: 14px;
       color: var(--subtext);
     }
 
@@ -198,24 +210,88 @@
       color: #22c55e;
     }
 
-    /* CONTACT FORM SUCCESS MESSAGE */
+    /* TESTIMONIALS */
+    .testimonial {
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: 18px;
+      border-radius: 16px;
+      color: var(--subtext);
+    }
+
+    .testimonial strong {
+      display: block;
+      margin-top: 8px;
+      color: var(--text);
+    }
+
+    /* CONTACT FORM */
+    .contact-card {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid var(--border);
+      padding: 24px;
+      border-radius: 16px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+      backdrop-filter: blur(10px);
+    }
+
+    .contact-card label {
+      font-size: 13px;
+      color: var(--subtext);
+      margin-bottom: 4px;
+      display: block;
+    }
+
+    .contact-card input,
+    .contact-card textarea,
+    .contact-card select {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 14px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: #0f172a;
+      color: var(--text);
+      font-size: 14px;
+    }
+
+    .contact-card textarea {
+      min-height: 130px;
+      resize: vertical;
+    }
+
+    .btn-primary {
+      width: 100%;
+      padding: 12px;
+      background: var(--accent);
+      border: none;
+      border-radius: 10px;
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .btn-primary:hover {
+      background: #4f46e5;
+    }
+
     .success-message {
+      display: none;
       background: rgba(34, 197, 94, 0.15);
       border: 1px solid #22c55e;
       padding: 14px;
       border-radius: 10px;
       color: #22c55e;
-      font-size: 14px;
-      margin-bottom: 14px;
-      display: none;
+      margin-bottom: 20px;
     }
 
     footer {
-      border-top: 1px solid var(--border);
-      padding: 18px;
       text-align: center;
+      padding: 20px;
       color: var(--subtext);
-      font-size: 12px;
+      border-top: 1px solid var(--border);
+      margin-top: 40px;
     }
   </style>
 </head>
@@ -225,7 +301,7 @@
 <header>
   <div class="nav">
     <div class="nav-left">
-      <img src="logo.png" class="logo-svg" alt="TrackLink Digital Logo">
+      <img src="logo.png" class="logo-svg">
       <div>
         <div class="brand-main">TrackLink Digital</div>
         <div class="brand-sub">QR Codes • Websites • One Place</div>
@@ -257,14 +333,11 @@
 
     <div class="hero-card">
       <div class="hero-logo-wrap">
-        <img src="logo.png" class="hero-logo" alt="TrackLink Digital Logo">
+        <img src="logo.png" class="hero-logo">
       </div>
 
       <div class="hero-card-footer">
-        <div style="display:flex;align-items:center;gap:6px;">
-          <span class="hero-card-dot"></span>
-          <span>Accepting new projects</span>
-        </div>
+        <div><span class="hero-card-dot"></span> Accepting new projects</div>
         <span>Scan. Build. Launch.</span>
       </div>
     </div>
@@ -277,7 +350,7 @@
       <p class="section-sub">Smart QR & web systems designed to be fast, clean, and easy to use.</p>
     </div>
 
-    <div class="services-grid">
+    <div class="grid">
       <div class="card">
         <h3>Custom QR Code Design</h3>
         <p>Branded QR codes for menus, business cards, flyers, packaging, and more.</p>
@@ -302,26 +375,11 @@
       <p class="section-sub">Even demo projects show what you can expect.</p>
     </div>
 
-    <div class="portfolio-grid">
-      <div class="card">
-        <h3>Restaurant Landing Page</h3>
-        <p>Clean, mobile-friendly site with QR menu integration.</p>
-      </div>
-
-      <div class="card">
-        <h3>QR Menu System</h3>
-        <p>QR codes linking to digital menus—easy to update instantly.</p>
-      </div>
-
-      <div class="card">
-        <h3>Landscaping Company Site</h3>
-        <p>Simple one-page site with services and contact form.</p>
-      </div>
-
-      <div class="card">
-        <h3>Business Card QR Code</h3>
-        <p>Custom QR linking to a mini landing page.</p>
-      </div>
+    <div class="grid">
+      <div class="card"><h3>Restaurant Landing Page</h3><p>Clean, mobile-friendly site with QR menu integration.</p></div>
+      <div class="card"><h3>QR Menu System</h3><p>QR codes linking to digital menus—easy to update instantly.</p></div>
+      <div class="card"><h3>Landscaping Company Site</h3><p>Simple one-page site with services and contact form.</p></div>
+      <div class="card"><h3>Business Card QR Code</h3><p>Custom QR linking to a mini landing page.</p></div>
     </div>
   </section>
 
@@ -347,19 +405,19 @@
       <h2>What clients say</h2>
     </div>
 
-    <div class="testimonials-grid">
+    <div class="grid">
       <div class="testimonial">
-        “TrackLink Digital built my website way faster than I expected. After launching, I started getting more calls and messages than ever before. The site helped bring in new customers every week.”
+        “TrackLink Digital built my website way faster than I expected. After launching, I started getting more calls and messages than ever before.”
         <strong>Owner, GV Landscaping</strong>
       </div>
 
       <div class="testimonial">
-        “The QR menu system was a game changer. Customers love how fast it loads, and it makes us look way more professional.”
+        “The QR menu system was a game changer. Customers love how fast it loads.”
         <strong>Manager, Riverbend Bistro</strong>
       </div>
 
       <div class="testimonial">
-        “Our old website looked outdated, but TrackLink Digital rebuilt it into something clean and modern. We get more booking requests now.”
+        “Our old website looked outdated, but TrackLink Digital rebuilt it into something clean and modern.”
         <strong>Owner, CleanPro Home Services</strong>
       </div>
     </div>
@@ -371,7 +429,7 @@
       <h2>Simple, clear pricing</h2>
     </div>
 
-    <div class="pricing-box" style="max-width:520px;margin:0 auto;">
+    <div class="card" style="max-width:520px;margin:0 auto;text-align:center;">
       <p><strong>QR Codes:</strong> $5 – $20 each</p>
       <p><strong>Websites:</strong> $60 – $200 per site</p>
       <p><strong>Branding add-ons:</strong> $20 – $80</p>
@@ -386,22 +444,37 @@
       <p class="section-sub">Fast replies, simple quotes, and no pressure.</p>
     </div>
 
-    <div class="contact-grid">
+    <div class="grid">
 
-      <!-- SUCCESS MESSAGE (hidden until form submits) -->
+      <!-- SUCCESS MESSAGE -->
       <div id="success" class="success-message">
         Thanks! Your message has been sent.
       </div>
 
-      <!-- FORMSPREE FORM -->
-      <form id="contactForm" action="https://formspree.io/f/xkoeykgo" method="POST">
-        <input type="text" name="Name" placeholder="Your name" required />
-        <input type="email" name="Email" placeholder="Your email" required />
-        <input type="text" name="Interest" placeholder="What are you interested in? (QR codes, website, both…)" />
-        <textarea name="Message" placeholder="Describe your project." required></textarea>
+      <!-- CONTACT FORM -->
+      <div class="contact-card">
+        <form id="contactForm" action="https://formspree.io/f/xkoeykgo" method="POST">
 
-        <button type="submit" class="btn-primary">Send message</button>
-      </form>
+          <label>Your name</label>
+          <input type="text" name="Name" required>
+
+          <label>Your email</label>
+          <input type="email" name="Email" required>
+
+          <label>What are you interested in?</label>
+          <select name="Interest" required>
+            <option value="">Select an option</option>
+            <option value="QR Codes">QR Codes</option>
+            <option value="Websites">Websites</option>
+            <option value="Both">Both</option>
+          </select>
+
+          <label>Describe your project</label>
+          <textarea name="Message" required></textarea>
+
+          <button type="submit" class="btn-primary">Send message</button>
+        </form>
+      </div>
 
       <script>
         const form = document.getElementById('contactForm');
@@ -423,7 +496,7 @@
         });
       </script>
 
-      <div class="contact-side" style="color:var(--subtext);font-size:14px;">
+      <div style="color:var(--subtext);font-size:14px;">
         <p><strong>How it works:</strong></p>
         <p>1. You send a quick description.<br>2. I reply with ideas + price.<br>3. If you like it, we start.</p>
         <p style="margin-top:12px;">
@@ -443,3 +516,4 @@
 
 </body>
 </html>
+
