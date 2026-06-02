@@ -523,29 +523,44 @@
       <br>
 
 
-  <!-- CONTACT -->
+<!-- CONTACT -->
   <section class="section" id="contact">
     <div class="section-header">
       <h2>Tell me what you need</h2>
       <p class="section-sub">Fast replies, simple quotes, and no pressure.</p>
     </div>
 
-    <div class="contact-grid">
+    <div class="grid">
 
-      <!-- SUCCESS MESSAGE (hidden until form submits) -->
+      <!-- SUCCESS MESSAGE -->
       <div id="success" class="success-message">
         Thanks! Your message has been sent.
       </div>
 
-      <!-- FORMSPREE FORM -->
-      <form id="contactForm" action="https://formspree.io/f/xkoeykgo" method="POST">
-        <input type="text" name="Name" placeholder="Your name" required />
-        <input type="email" name="Email" placeholder="Your email" required />
-        <input type="text" name="Interest" placeholder="What are you interested in? (QR codes, website, both…)" />
-        <textarea name="Message" placeholder="Describe your project." required></textarea>
+      <!-- CONTACT FORM -->
+      <div class="contact-card">
+        <form id="contactForm" action="https://formspree.io/f/xkoeykgo" method="POST">
 
-        <button type="submit" class="btn-primary">Send message</button>
-      </form>
+          <label>Your name</label>
+          <input type="text" name="Name" required>
+
+          <label>Your email</label>
+          <input type="email" name="Email" required>
+
+          <label>What are you interested in?</label>
+          <select name="Interest" required>
+            <option value="">Select an option</option>
+            <option value="QR Codes">QR Codes</option>
+            <option value="Websites">Websites</option>
+            <option value="Both">Both</option>
+          </select>
+
+          <label>Describe your project</label>
+          <textarea name="Message" required></textarea>
+
+          <button type="submit" class="btn-primary">Send message</button>
+        </form>
+      </div>
 
       <script>
         const form = document.getElementById('contactForm');
@@ -567,7 +582,7 @@
         });
       </script>
 
-      <div class="contact-side" style="color:var(--subtext);font-size:14px;">
+      <div style="color:var(--subtext);font-size:14px;">
         <p><strong>How it works:</strong></p>
         <p>1. You send a quick description.<br>2. I reply with ideas + price.<br>3. If you like it, we start.</p>
         <p style="margin-top:12px;">
